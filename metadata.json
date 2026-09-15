@@ -1,0 +1,6 @@
+{
+  "name": "Panduan Islam",
+  "description": "Aplikasi panduan Islam dan tata cara sholat lengkap, tanya jawab hukum agama AI real-time, jadwal waktu sholat akurat dunia, dan komunitas ibadah.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
