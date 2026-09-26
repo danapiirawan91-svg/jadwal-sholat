@@ -74,7 +74,8 @@ fun PrayerTimesScreen(
                             colors = listOf(Emerald900, Emerald700)
                         )
                     )
-                    .padding(horizontal = 20.dp, vertical = 24.dp)
+                    .statusBarsPadding()
+                    .padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 24.dp)
             ) {
                 Column(modifier = Modifier.fillMaxWidth()) {
                     // Top row: Location & Hijri Date
@@ -749,6 +750,9 @@ fun PrayerTimesScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .heightIn(max = 520.dp)
+                    .statusBarsPadding()
+                    .navigationBarsPadding()
+                    .padding(vertical = 16.dp)
                     .testTag("city_dialog")
             ) {
                 Column(modifier = Modifier.padding(20.dp)) {
@@ -922,6 +926,9 @@ fun PrayerTimesScreen(
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                 modifier = Modifier
                     .fillMaxWidth()
+                    .statusBarsPadding()
+                    .navigationBarsPadding()
+                    .padding(vertical = 16.dp)
                     .testTag("method_dialog")
             ) {
                 Column(modifier = Modifier.padding(20.dp)) {

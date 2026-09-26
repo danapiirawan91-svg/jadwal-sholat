@@ -50,21 +50,21 @@ object PrayerCalculator {
         // Midday (Dhuhr) in fractional hours
         val dhuhrFrac = fixHour(12.0 + timezone - lng / 15.0 - eqt)
 
-        // Sunrise and Sunset (refraction angle 0.833)
-        val sunTransit = sunAngleHour(lat, dd, 0.833)
+        // Sunrise and Sunset (refraction angle 0.833 below horizon)
+        val sunTransit = sunDepressionHourAngle(lat, dd, 0.833)
         val sunriseFrac = dhuhrFrac - sunTransit
         val sunsetFrac = dhuhrFrac + sunTransit
 
-        // Fajr & Isha
-        val fajrTransit = sunAngleHour(lat, dd, method.fajrAngle)
+        // Fajr & Isha (depression angles below horizon)
+        val fajrTransit = sunDepressionHourAngle(lat, dd, method.fajrAngle)
         val fajrFrac = dhuhrFrac - fajrTransit
 
-        val ishaTransit = sunAngleHour(lat, dd, method.ishaAngle)
+        val ishaTransit = sunDepressionHourAngle(lat, dd, method.ishaAngle)
         val ishaFrac = dhuhrFrac + ishaTransit
 
-        // Asr (Shafi'i shadow length = 1)
-        val asrAngle = toDegrees(atan(1.0 / (1.0 + tan(toRadians(abs(lat - dd))))))
-        val asrTransit = sunAngleHour(lat, dd, asrAngle)
+        // Asr (Shafi'i shadow length = 1, solar altitude ABOVE horizon)
+        val asrAltitude = toDegrees(atan(1.0 / (1.0 + tan(toRadians(abs(lat - dd))))))
+        val asrTransit = sunAltitudeHourAngle(lat, dd, asrAltitude)
         val asrFrac = dhuhrFrac + asrTransit
 
         // Imsak is 10 minutes before Fajr
@@ -84,7 +84,7 @@ object PrayerCalculator {
 
         // Date strings
         val dateString = String.format(
-            Locale("id", "ID"),
+            Locale.forLanguageTag("id-ID"),
             "%02d %s %04d",
             day,
             getMonthNameIndo(month),
@@ -208,11 +208,28 @@ object PrayerCalculator {
         return String.format(Locale.getDefault(), "%02d:%02d", finalH, finalM)
     }
 
-    private fun sunAngleHour(lat: Double, declination: Double, angle: Double): Double {
-        val angleRad = toRadians(angle)
+    /**
+     * Hour angle for an event when the sun is at depression angle [depressionAngle] BELOW the horizon.
+     * (e.g. Fajr, Isha, Sunrise/Sunset)
+     */
+    private fun sunDepressionHourAngle(lat: Double, declination: Double, depressionAngle: Double): Double {
+        val angleRad = toRadians(depressionAngle)
         val latRad = toRadians(lat)
         val decRad = toRadians(declination)
         val term = (-sin(angleRad) - sin(latRad) * sin(decRad)) / (cos(latRad) * cos(decRad))
+        val clamped = term.coerceIn(-1.0, 1.0)
+        return toDegrees(acos(clamped)) / 15.0
+    }
+
+    /**
+     * Hour angle for an event when the sun is at altitude angle [altitudeAngle] ABOVE the horizon.
+     * (e.g. Asr)
+     */
+    private fun sunAltitudeHourAngle(lat: Double, declination: Double, altitudeAngle: Double): Double {
+        val altRad = toRadians(altitudeAngle)
+        val latRad = toRadians(lat)
+        val decRad = toRadians(declination)
+        val term = (sin(altRad) - sin(latRad) * sin(decRad)) / (cos(latRad) * cos(decRad))
         val clamped = term.coerceIn(-1.0, 1.0)
         return toDegrees(acos(clamped)) / 15.0
     }

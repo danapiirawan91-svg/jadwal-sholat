@@ -632,7 +632,9 @@ fun UserProfileDialog(
             modifier = Modifier
                 .fillMaxWidth(0.92f)
                 .widthIn(max = 500.dp)
-                .padding(vertical = 24.dp)
+                .statusBarsPadding()
+                .navigationBarsPadding()
+                .padding(vertical = 16.dp)
                 .testTag("user_profile_dialog_card")
         ) {
             Column(
@@ -782,6 +784,8 @@ fun UserAuthDialog(
             modifier = Modifier
                 .fillMaxWidth(0.95f)
                 .widthIn(max = 520.dp)
+                .statusBarsPadding()
+                .navigationBarsPadding()
                 .padding(vertical = 16.dp)
                 .testTag("auth_dialog_card")
         ) {

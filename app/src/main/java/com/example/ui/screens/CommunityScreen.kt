@@ -63,7 +63,8 @@ fun CommunityScreen(
                         .background(
                             Brush.verticalGradient(listOf(Emerald900, Emerald700))
                         )
-                        .padding(horizontal = 20.dp, vertical = 24.dp)
+                        .statusBarsPadding()
+                        .padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 24.dp)
                 ) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -434,6 +435,8 @@ fun NewPostDialog(
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
             modifier = Modifier
                 .fillMaxWidth()
+                .statusBarsPadding()
+                .navigationBarsPadding()
                 .padding(vertical = 16.dp)
                 .testTag("new_post_dialog")
         ) {
@@ -547,6 +550,9 @@ fun CommentsDialog(
             modifier = Modifier
                 .fillMaxWidth()
                 .heightIn(max = 550.dp)
+                .statusBarsPadding()
+                .navigationBarsPadding()
+                .padding(vertical = 16.dp)
                 .testTag("comments_dialog")
         ) {
             Column(modifier = Modifier.padding(20.dp)) {

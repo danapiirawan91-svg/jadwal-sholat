@@ -1,9 +1,11 @@
 package com.example
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -23,6 +25,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -31,7 +34,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat
+import botX.OoOo
 import com.example.data.prayer.CityLocation
 import com.example.ui.screens.AiConsultantScreen
 import com.example.ui.screens.AuthDialog
@@ -69,6 +74,7 @@ fun MainAppScreen(viewModel: MainViewModel) {
     val selectedTab by viewModel.selectedTab.collectAsState()
     val context = LocalContext.current
 
+    var showWelcomeDialog by remember { mutableStateOf(true) }
     var showExitDialog by remember { mutableStateOf(false) }
     var showAuthDialog by remember { mutableStateOf(false) }
 
@@ -78,6 +84,7 @@ fun MainAppScreen(viewModel: MainViewModel) {
     // Handle back button: dismiss active modal first, or prompt exit confirmation
     BackHandler(enabled = true) {
         when {
+            showWelcomeDialog -> showWelcomeDialog = false
             showExitDialog -> showExitDialog = false
             showAuthDialog -> showAuthDialog = false
             selectedPostForComments != null -> viewModel.closeComments()
@@ -262,6 +269,13 @@ fun MainAppScreen(viewModel: MainViewModel) {
         AuthDialog(
             viewModel = viewModel,
             onDismissRequest = { showAuthDialog = false }
+        )
+    }
+
+    // Welcome Dialog (botX.OoOo - Encrypted & Anti-Tamper Protected)
+    if (showWelcomeDialog) {
+        OoOo.ProtectedWelcomeDialog(
+            onDismiss = { showWelcomeDialog = false }
         )
     }
 }

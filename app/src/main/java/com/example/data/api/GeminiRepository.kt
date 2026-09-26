@@ -69,7 +69,7 @@ class GeminiRepository(
         }
     }
 
-    private val fallbackNote = "Jawaban disajikan dari rujukan fiqih terpercaya. Untuk jawaban AI interaktif tanpa batas, pastikan GEMINI_API_KEY aktif di panel Secrets."
+    private val fallbackNote = "Jawaban disajikan dari rujukan fiqih terpercaya saat koneksi internet offline."
 
     private fun getCuratedIslamicAnswer(query: String): String {
         val lower = query.lowercase()

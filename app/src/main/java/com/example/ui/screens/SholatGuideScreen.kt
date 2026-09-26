@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -66,7 +67,8 @@ fun SholatGuideScreen(
                         .background(
                             Brush.verticalGradient(listOf(Emerald900, Emerald700))
                         )
-                        .padding(horizontal = 20.dp, vertical = 24.dp)
+                        .statusBarsPadding()
+                        .padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 24.dp)
                 ) {
                     Column {
                         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -78,7 +80,7 @@ fun SholatGuideScreen(
                                 contentAlignment = Alignment.Center
                             ) {
                                 Icon(
-                                    imageVector = Icons.Default.MenuBook,
+                                    imageVector = Icons.AutoMirrored.Filled.MenuBook,
                                     contentDescription = null,
                                     tint = Gold500,
                                     modifier = Modifier.size(24.dp)
@@ -570,7 +572,8 @@ fun SholatDetailView(
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface
-                )
+                ),
+                windowInsets = WindowInsets.statusBars
             )
         }
     ) { padding ->
